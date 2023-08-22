@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\CrudTask.API.props" />
+</Project>
