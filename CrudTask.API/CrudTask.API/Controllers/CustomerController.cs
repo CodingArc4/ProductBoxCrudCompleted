@@ -1,4 +1,5 @@
-﻿using CrudTask.API.Interface;
+﻿using CrudTask.API.Dto;
+using CrudTask.API.Interface;
 using CrudTask.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,28 +52,27 @@ namespace CrudTask.API.Controllers
 
         // api end point to update a customer
         [HttpPut("UpdateCustomer/{id}")]
-        public IActionResult UpdateCustomer(int id, [FromBody] Customer customer)
+        public IActionResult UpdateCustomer(int id, [FromBody] CustomerDto customerDto)
         {
-            //try
-            //{
-                if (customer == null || id != customer.Id)
-                {
-                    return BadRequest();
-                }
+           var existingcustomer = _customerService.GetCustomerById(id);
+            if (existingcustomer == null)
+            {
+                return NotFound();
+            }
 
-                var existingCustomer = _customerService.GetCustomerById(id);
-                if (existingCustomer == null)
-                {
-                    return NotFound();
-                }
+            existingcustomer.Name = customerDto.Name;
+            existingcustomer.Description = customerDto.Description;
+            existingcustomer.Address = customerDto.Address;
+            existingcustomer.City = customerDto.City;
+            existingcustomer.State = customerDto.State;
+            existingcustomer.Zip = customerDto.Zip;
 
-                _customerService.UpdateCustomer(customer);
-                return Ok();
-            //}
-            //catch(Exception ex) 
-            //{
-               // return StatusCode(500, "An error occured while processing your request");
-          //  }
+            existingcustomer.CustomerType.Name = customerDto.CustomerTypeName;
+
+            _customerService.UpdateCustomer(existingcustomer);
+
+            return Ok();
+
         }
 
         // api end point to delete a customer

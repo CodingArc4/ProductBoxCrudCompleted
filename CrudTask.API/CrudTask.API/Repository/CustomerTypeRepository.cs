@@ -1,6 +1,7 @@
 ﻿using CrudTask.API.Data;
 using CrudTask.API.Interface;
 using CrudTask.API.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudTask.API.Repository
 {
@@ -14,29 +15,20 @@ namespace CrudTask.API.Repository
             _dbContext = dbContext;
         }
 
-        public void CreateCustomer(Customer customer)
+        public void CreateCustomerType(customerType customer)
         {
-            throw new NotImplementedException();
+            _dbContext.CustomerTypes.Add(customer);
+            _dbContext.SaveChanges();
         }
 
-        public void DeleteCustomer(int id)
+        public List<customerType> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.CustomerTypes.ToList();
         }
 
-        public List<Customer> GetAll()
+        public customerType GetCustomerTypeById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Customer GetCustomerById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCustomer(Customer customer)
-        {
-            throw new NotImplementedException();
+            return _dbContext.CustomerTypes.FirstOrDefault(x => x.TypeId == id);
         }
     }
 }

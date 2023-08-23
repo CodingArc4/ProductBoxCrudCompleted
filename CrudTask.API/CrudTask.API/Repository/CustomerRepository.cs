@@ -51,9 +51,22 @@ namespace CrudTask.API.Repository
 
         //Update Customer Record
         public void UpdateCustomer(Customer customer)
-        {
-            _dbContext.Entry(customer).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+        { 
+           var existingCustomer = _dbContext.Customers.Include(c => c.CustomerType).FirstOrDefault(x => x.Id == customer.Id);
+           
+            if (existingCustomer != null)
+            {
+                existingCustomer.Name = customer.Name;
+                existingCustomer.Description = customer.Description;
+                existingCustomer.Address = customer.Address;
+                existingCustomer.City = customer.City;
+                existingCustomer.State = customer.State;
+                existingCustomer.Zip = customer.Zip;
+
+                existingCustomer.CustomerType.Name = customer.CustomerType.Name;
+
+                _dbContext.SaveChanges();
+            }
         }
 
     }

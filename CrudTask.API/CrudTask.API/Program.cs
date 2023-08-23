@@ -20,6 +20,16 @@ builder.Services.AddDbContext<CustomerDbContext>(option =>
     //option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
+//for connection between backend and frontend
+builder.Services.AddCors(option => {
+    option.AddPolicy("MyPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddScoped<ICustomer, CustomerRepository>();
 //builder.Services.AddScoped<ICustomerType, CustomerTypeRepository>();
 
@@ -33,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("MyPolicy");
 
 app.UseAuthorization();
 

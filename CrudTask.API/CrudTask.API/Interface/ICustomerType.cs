@@ -4,10 +4,9 @@ namespace CrudTask.API.Interface
 {
     public interface ICustomerType
     {
-        List<Customer> GetAll();
-        Customer GetCustomerById(int id);
-        void CreateCustomer(Customer customer);
-        void UpdateCustomer(Customer customer);
-        void DeleteCustomer(int id);
+        List<customerType> GetAll();
+        customerType GetCustomerTypeById(int id);
+        void CreateCustomerType(customerType customer);
+
     }
 }
